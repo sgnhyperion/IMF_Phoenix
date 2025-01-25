@@ -17,7 +17,7 @@ const Gadget = sequelize.define('Gadget', {
     },
     status: {
         type: Sequelize.ENUM(["Available", "Deployed", "Destroyed", "Decommissioned"]),
-        allowNull: false
+        defaultValue: 'Available'
     },
     codeName: {
         type: Sequelize.STRING,
@@ -26,6 +26,10 @@ const Gadget = sequelize.define('Gadget', {
     successRate: {
         type: Sequelize.FLOAT,
         allowNull: false
+    },
+    decommissionedAt: {
+        type: Sequelize.DATE,
+        allowNull: true
     }
 })
 
