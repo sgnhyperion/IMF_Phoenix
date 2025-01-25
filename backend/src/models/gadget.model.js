@@ -1,5 +1,5 @@
 import { Sequelize } from "sequelize";
-import { sequelize } from "../lib/db";
+import { sequelize } from "../lib/db.js";
 
 // id (UUID)
 // name (string)

@@ -1,11 +1,9 @@
-import Gadget from "../model/gadget.model.js";
-import { Configuration, OpenAIApi } from "openai";
+import Gadget from "../models/gadget.model.js";
+import OpenAI from "openai";
 
-const configuration = new Configuration({
+const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
-
-const openai = new OpenAIApi(configuration);
 
 // Generating codename
 async function generateCodename() {
