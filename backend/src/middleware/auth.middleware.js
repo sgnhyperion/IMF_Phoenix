@@ -15,13 +15,15 @@ export const protectRoute = async (req, res, next) => {
             return res.status(401).json({message: "Unauthorized - Invalid Token"})
         }
 
-        const user = await User.findById(decoded.userId).select("-password");
+        const user = await User.findByPk(decoded.userId, {
+            attributes: { exclude: ['password'] }
+        });
 
         if(!user){
             return res.status(401).json({message: "Unauthorized - User Not Found"})
         }
+        
         req.user = user;
-
         next();
     } catch (error) {
         console.log("Error in protectRoute middleware ", error.message);

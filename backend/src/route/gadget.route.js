@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-router.use(protectRoute);
+// router.use(protectRoute);
 
 router.route("/").get(getAllGadgets).post(createGadget);
 

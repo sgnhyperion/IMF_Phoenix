@@ -13,7 +13,7 @@ async function generateCodename() {
             { role: "developer", content: "You are a helpful assistant." },
             {
                 role: "user",
-                content: "Generate a single cool spy gadget codename (e.g., 'The Nightingale', 'The Phantom Shadow'). Response should be just the name, nothing else.",
+                content: "Generate a single cool spy gadget codename (e.g., 'The Nightingale', 'The Phantom Shadow'). Response should be just the name, nothing else. The codeName should be related to the gadget name.",
             },
         ],
         store: true,
@@ -106,7 +106,7 @@ async function generateCodename() {
         const { id } = req.params;
         const { confirmationCode } = req.body;
 
-        const expectedCode = Math.random.toString(36).substring(7);
+        const expectedCode = Math.random().toString(36).substring(7);
 
         if(confirmationCode !== expectedCode) {
             return res.status(400).json({

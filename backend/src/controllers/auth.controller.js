@@ -2,41 +2,38 @@ import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs"
 
-export const signup = async (req,res)=>{
-    const {fullName,email,password} = req.body;
+export const signup = async (req, res) => {
+    const {name, email, password} = req.body;
     try {
-        if(!fullName || !email || !password){
+        if(!name || !email || !password){
             return res.status(400).json({message: "All fields are required"})
         }
-        if(password.length<6){
+        if(password.length < 6){
             return res.status(400).json({ message:"Password must be at least 6 characters long" })
         } 
 
-        const user = await User.findOne({email});
+        const existingUser = await User.findOne({ where: { email } });
 
-        if(user){
+        if(existingUser){
             return res.status(400).json({message: "Email already exists"});
         }
 
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newUser = new User({
-            fullName,
+        const newUser = await User.create({
+            name,
             email,
             password: hashedPassword
         });
 
         if(newUser){
-            // gen jwt token
-            generateToken(newUser._id, res)
-            await newUser.save();
+            generateToken(newUser.id, res);
 
             res.status(201).json({
-                _id: newUser._id,
-                fullName: newUser.fullName,
-                email: newUser.email,
-                profilePic: newUser.profilePic,
+                id: newUser.id,
+                name: newUser.name,
+                email: newUser.email
             });
         } else {
             res.status(400).json({message: "Invalid user data"})
@@ -45,14 +42,13 @@ export const signup = async (req,res)=>{
     } catch (err) {
         console.log("Error in signup controller ", err.message);
         res.status(500).json({message: "Internal server error"})
-        
     }
 }
 
-export const login = async (req,res)=>{
+export const login = async (req, res) => {
     const {email, password} = req.body;
     try {
-        const user = await User.findOne({email});
+        const user = await User.findOne({ where: { email } });
 
         if(!user){
             return res.status(400).json({message: "Invalid credentials"})
@@ -64,13 +60,12 @@ export const login = async (req,res)=>{
             return res.status(400).json({message: "Invalid credentials"})
         }
 
-        generateToken(user._id, res);
+        generateToken(user.id, res);
 
         res.status(200).json({
-            _id: user._id,
-            fullName: user.fullName,
-            email: user.email,
-            profilePic: user.profilePic
+            id: user.id,
+            name: user.name,
+            email: user.email
         });
 
     } catch (error) {
@@ -79,9 +74,9 @@ export const login = async (req,res)=>{
     }
 }
 
-export const logout = (req,res)=>{
+export const logout = (req, res) => {
     try {
-        res.cookie("jwt","", {maxAge:0});
+        res.cookie("jwt", "", {maxAge: 0});
         res.status(200).json({message: "Logout successful"})
     } catch (error) {
         console.log("Error in logout controller ", error.message);
@@ -89,8 +84,7 @@ export const logout = (req,res)=>{
     }
 }
 
-
-export const checkAuth = (req, res)=>{
+export const checkAuth = (req, res) => {
     try {
         res.status(200).json(req.user);
     } catch (error) {
