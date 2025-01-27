@@ -1,3 +1,6 @@
+Sure! Here’s how you can integrate the information about the logger into your existing README file. I will add a brief mention of the logger in the "Getting Started" section and highlight its purpose.
+
+```markdown
 # 🕵️ Gadget Management API
 
 A RESTful API for managing spy gadgets with cutting-edge features and seamless integration.
@@ -103,3 +106,11 @@ The application uses **Winston** for logging purposes, which helps in tracking e
 ## 📞 Contact
 
 Harsh Kumar - dev.harshhkumar@gmail.com
+```
+
+### Summary of Changes
+
+1. **Added a bullet point** in the "Features" section to mention integrated logging.
+2. **Included a new section** titled "Logging" at the end of the README to briefly explain the purpose of the logger.
+
+This integration provides a clear overview of the logging functionality within your application while keeping the README concise and informative.
