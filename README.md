@@ -37,7 +37,7 @@ A RESTful API for managing spy gadgets with cutting-edge features and seamless i
 1. Clone the repository
    ```bash
    git clone https://github.com/your-username/gadget-management-api.git
-   cd IMF_Phoenix
+   cd IMF_Phoenix/backend
    ```
 
 2. Install dependencies
