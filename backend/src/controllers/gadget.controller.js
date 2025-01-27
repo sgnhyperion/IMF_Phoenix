@@ -41,6 +41,13 @@ async function generateCodename() {
   export const createGadget = async (req, res) => {
     try {
         const { name } = req.body;
+
+        const checkIfGadgetExists = await Gadget.findOne({ where: { name } });
+
+        if(checkIfGadgetExists) {
+            return res.status(400).json({ error: "Gadget already exists" });
+        }
+
         const codeName = await generateCodename();
         const successRate = Math.floor(Math.random()*41) + 60;
 
