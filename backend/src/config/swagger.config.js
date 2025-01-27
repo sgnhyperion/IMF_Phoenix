@@ -16,8 +16,8 @@ const options = {
     servers: [
       {
         url: process.env.NODE_ENV === 'production' 
-          ? 'https://imf-phoenix.onrender.com' 
-          : 'http://localhost:5000',
+          ? 'your-production-url' 
+          : 'https://imf-phoenix.onrender.com',
         description: process.env.NODE_ENV === 'production' ? 'Production server' : 'Development server'
       }
     ],
