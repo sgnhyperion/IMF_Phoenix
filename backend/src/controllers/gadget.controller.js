@@ -100,29 +100,51 @@ async function generateCodename() {
   };
 
 
-  // Self Destruct Gadget
-  export const selfDestruct = async ( req, res ) => {
+// Send Self-Destruct Request
+export const sendSelfDestructRequest = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const gadget = await Gadget.findByPk(id);
+
+        if (!gadget) {
+            return res.status(404).json({ error: "Gadget not found" });
+        }
+
+        // Generate a confirmation code
+        const confirmationCode = Math.random().toString(36).substring(7);
+        // Store the confirmation code in the gadget (or in a temporary store)
+        gadget.confirmationCode = confirmationCode; // You may need to add this field to your model
+        await gadget.save();
+
+        // Send the confirmation code to the user (e.g., via alert in the frontend)
+        // For now, we will just return it in the response for testing purposes
+        res.status(200).json({ message: "Confirmation code generated", confirmationCode });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Execute Self-Destruct
+export const executeSelfDestruct = async (req, res) => {
     try {
         const { id } = req.params;
         const { confirmationCode } = req.body;
 
-        const expectedCode = Math.random().toString(36).substring(7);
-
-        if(confirmationCode !== expectedCode) {
-            return res.status(400).json({
-                message: "Invalid confirmation code",
-                expectedCode,
-            });
-        }
-
         const gadget = await Gadget.findByPk(id);
-        if(!gadget) {
+
+        if (!gadget) {
             return res.status(404).json({ error: "Gadget not found" });
         }
 
+        // Check if the confirmation code matches
+        if (confirmationCode !== gadget.confirmationCode) {
+            return res.status(400).json({ error: "Invalid confirmation code" });
+        }
+
+        // Proceed with self-destruct
         await gadget.update({ status: "Destroyed" });
         res.status(200).json({ message: "Gadget self-destructed successfully" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-  };
+};

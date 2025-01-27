@@ -5,7 +5,8 @@ import {
     getAllGadgets,
     updateGadget,
     decommissionGadget,
-    selfDestruct,
+    sendSelfDestructRequest,
+    executeSelfDestruct,
 } from "../controllers/gadget.controller.js";
 
 const router = express.Router();
@@ -117,10 +118,41 @@ router.route("/").get(getAllGadgets).post(createGadget);
 router.route("/:id").patch(updateGadget).delete(decommissionGadget);
 
 /**
- * @swagger
- * /gadgets/{id}/self-destruct:
+* @swagger
+ * /gadgets/{id}/self-destruct/request:
  *   post:
- *     summary: Self-destruct a gadget
+ *     summary: Request self-destruct confirmation code
+ *     tags: [Gadgets]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Confirmation code generated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 confirmationCode:
+ *                   type: string
+ *       404:
+ *         description: Gadget not found
+ *       500:
+ *         description: Internal server error
+ */
+router.post("/:id/self-destruct/request", sendSelfDestructRequest);
+
+/**
+ * @swagger
+ * /gadgets/{id}/self-destruct/execute:
+ *   post:
+ *     summary: Execute self-destruct with confirmation code
  *     tags: [Gadgets]
  *     parameters:
  *       - in: path
@@ -142,7 +174,11 @@ router.route("/:id").patch(updateGadget).delete(decommissionGadget);
  *         description: Gadget self-destructed successfully
  *       400:
  *         description: Invalid confirmation code
+ *       404:
+ *         description: Gadget not found
+ *       500:
+ *         description: Internal server error
  */
-router.route("/:id/self-destruct").post(selfDestruct);
+router.post("/:id/self-destruct/execute", executeSelfDestruct);
 
 export default router;

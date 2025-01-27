@@ -1,10 +1,6 @@
 import { Sequelize } from "sequelize";
 import { sequelize } from "../lib/db.js";
 
-// id (UUID)
-// name (string)
-// status (string, enum: ["Available", "Deployed", "Destroyed", "Decommissioned"])
-
 const Gadget = sequelize.define('Gadget', {
     id: {
         type: Sequelize.UUID,
@@ -30,7 +26,11 @@ const Gadget = sequelize.define('Gadget', {
     decommissionedAt: {
         type: Sequelize.DATE,
         allowNull: true
+    },
+    confirmationCode: { // New field for confirmation code
+        type: Sequelize.STRING,
+        allowNull: true
     }
-})
+});
 
 export default Gadget;
