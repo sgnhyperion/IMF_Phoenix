@@ -11,6 +11,7 @@ A RESTful API for managing spy gadgets with cutting-edge features and seamless i
 - 𝴄 PostgreSQL with Sequelize ORM
 - 🔒 Protected routes and middleware
 - 🚀 Deployment-ready configuration
+- 📜 Integrated logging for error tracking and monitoring
 
 ## 🕠 Tech Stack
 
@@ -22,6 +23,7 @@ A RESTful API for managing spy gadgets with cutting-edge features and seamless i
 - JWT Authentication
 - OpenAI API
 - Supabase
+- Winston (for logging)
 
 ## 🚀 Getting Started
 
@@ -79,7 +81,8 @@ A RESTful API for managing spy gadgets with cutting-edge features and seamless i
 | POST   | `/gadgets`               | Create a new gadget         |
 | PATCH  | `/gadgets/:id`           | Update a gadget             |
 | DELETE | `/gadgets/:id`           | Decommission a gadget       |
-| POST   | `/gadgets/:id/self-destruct` | Self-destruct a gadget  |
+| POST   | `/gadgets/:id/self-destruct/request` | Request self-destruct confirmation code |
+| POST   | `/gadgets/:id/self-destruct/execute` | Execute self-destruct with confirmation code |
 
 ## 📚 API Documentation
 
@@ -93,6 +96,9 @@ This API uses JWT (JSON Web Tokens) for authentication:
 - All protected routes require a valid token
 - Token-based authentication with role-based access control
 
+## 📜 Logging
+
+The application uses **Winston** for logging purposes, which helps in tracking errors, debugging, and monitoring the application's performance.
 
 ## 📞 Contact
 
