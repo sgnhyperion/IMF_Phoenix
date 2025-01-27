@@ -1,6 +1,7 @@
 import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs"
+import logger from "../lib/logger.js";
 
 export const signup = async (req, res) => {
     const {name, email, password} = req.body;
@@ -40,7 +41,7 @@ export const signup = async (req, res) => {
         }
 
     } catch (err) {
-        console.log("Error in signup controller ", err.message);
+        logger.error("Error in signup controller ", err.message);
         res.status(500).json({message: "Internal server error"})
     }
 }
@@ -69,7 +70,7 @@ export const login = async (req, res) => {
         });
 
     } catch (error) {
-        console.log("Error in login controller ", error.message);
+        logger.error("Error in login controller ", error.message);
         return res.status(500).json({message: "Internal server error"})
     }
 }
@@ -88,7 +89,7 @@ export const checkAuth = (req, res) => {
     try {
         res.status(200).json(req.user);
     } catch (error) {
-        console.log("Error in checkAuth controller ", error.message);
+        logger.error("Error in checkAuth controller ", error.message);
         res.status(500).json({message: "Internal server error"})
     }
 }

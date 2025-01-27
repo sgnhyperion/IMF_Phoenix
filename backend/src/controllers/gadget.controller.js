@@ -1,5 +1,6 @@
 import Gadget from "../models/gadget.model.js";
 import OpenAI from "openai";
+import logger from "../lib/logger.js";
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
@@ -32,7 +33,8 @@ async function generateCodename() {
         const gadgets = await Gadget.findAll({ where: whereClause });
         res.status(200).json(gadgets);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        logger.error("Error in getAllGadgets controller ", error.message);
+        res.status(500).json({ message: "Internal Server Error" });
     }
   };
 
@@ -60,7 +62,8 @@ async function generateCodename() {
 
         res.status(201).json(gadget);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        logger.error("Error in createGadget controller ", error.message);
+        res.status(500).json({ message: "Internal Server Error" });
     }
   };
 
@@ -79,7 +82,8 @@ async function generateCodename() {
         await gadget.update({ name, status });
         res.status(200).json(gadget);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        logger.error("Error in updateGadget controller ", error.message);
+        res.status(500).json({ message: "Internal Server Error" });
     }
   };
 
@@ -102,7 +106,8 @@ async function generateCodename() {
 
         res.status(200).json(gadget);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        logger.error("Error in decommissionGadget controller ", error.message);
+        res.status(500).json({ message: "Internal Server Error" });
     }
   };
 
@@ -127,7 +132,8 @@ export const sendSelfDestructRequest = async (req, res) => {
         // For now, we will just return it in the response for testing purposes
         res.status(200).json({ message: "Confirmation code generated", confirmationCode });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        logger.error("Error in sendSelfDestructRequest controller ", error.message);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };
 
@@ -152,6 +158,7 @@ export const executeSelfDestruct = async (req, res) => {
         await gadget.update({ status: "Destroyed" });
         res.status(200).json({ message: "Gadget self-destructed successfully" });
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        logger.error("Error in executeSelfDestruct controller ", error.message);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 };

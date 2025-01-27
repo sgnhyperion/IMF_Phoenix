@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import logger from './logger.js';
 
 dotenv.config();
 
@@ -32,6 +33,6 @@ export async function initializeDatabase() {
     await sequelize.sync({ alter: true });
     console.log('Models synced with database.');
   } catch (error) {
-    console.error('Unable to connect to the database:', error);
+    logger.error('Unable to connect to the database:', error);
   }
 }
