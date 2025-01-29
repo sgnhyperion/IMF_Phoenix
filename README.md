@@ -57,7 +57,7 @@ A RESTful API for managing spy gadgets with cutting-edge features and seamless i
    SUPABASE_ANON_KEY=your_supabase_key
    ```
 
-4. Replace the server url in `src/config/swagger.config.js` with `http://loaclhost:5000` 
+4. Replace the server url in `src/config/swagger.config.js` with `http://localhost:5000` 
 
 4. Start the development server
    ```bash
