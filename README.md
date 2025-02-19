@@ -87,7 +87,7 @@ A RESTful API for managing spy gadgets with cutting-edge features and seamless i
 ## 📚 API Documentation
 
 Access the full Swagger/OpenAPI documentation at: 
-https://imf-phoenix.onrender.com/api-docs/
+https://imf-phoenix-3ok4.onrender.com/api-docs
 
 ## 🔒 Authentication
 
